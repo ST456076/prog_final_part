@@ -1,0 +1,197 @@
+﻿<Window x:Class="prog_final_part.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:prog_final_part"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid
+         Height="450px"
+        Width="800px"
+        >
+        <!--sidebarb menu grid -->
+        <Grid
+     Height="450px"
+     Width="100px"
+     Margin="0,0,695,0"
+     Background="Pink"
+     >
+            <!--button for chatting grid page-->
+            <Button
+      Height="30px"
+      Width="90px"
+      Content="the chat conve" 
+      Click="chats"
+      Margin="5,22,5,398"
+      Background="LightBlue"
+      Foreground="Black"
+      BorderBrush="AliceBlue"
+      />
+            <!--button for reminder grid page-->
+            <Button
+  Height="30px"
+  Width="90px"
+  Content="Set reminder" 
+  Click="reminder"
+  Margin="0,0,0,250"
+  Background="LightBlue"
+  Foreground="Black"
+  BorderBrush="AliceBlue"
+  />
+            <!--button for quiz grid -->
+            <Button
+Height="30px"
+Width="90px"
+Content="Play a quize" 
+Click="quiz"
+Margin="0,0,0,150"
+Background="LightBlue"
+Foreground="Black"
+BorderBrush="AliceBlue"
+/>
+            <!--button for activity log-->
+            <Button
+Height="30px"
+Width="90px"
+Content="activity history" 
+Click="activity_log"
+Margin="0,0,0,50"
+Background="LightBlue"
+Foreground="Black"
+BorderBrush="AliceBlue"
+
+               />
+            <!--button for exit-->
+            <Button
+Height="30px"
+Width="90px"
+Content="Back to manu" 
+Click="exit"
+Margin="0,0,0,-350"
+Background="LightBlue"
+Foreground="Black"
+BorderBrush="AliceBlue"
+                />
+
+        </Grid>
+                <!--END OF SIDEBAR GRID-->
+                <Grid 
+        Height="450px"
+        Width="700px"  
+        Margin="100,0,0,0"
+        >
+
+                    <!--Grid chats-->
+     <Grid
+     Height="450px"
+     Width="700px"
+     x:Name="chats_page"
+     Background="LightBlue"
+     Visibility="Visible" 
+            >
+                <ListView
+     Height="300"
+     Width="400"
+     x:Name="chat_page"
+     MouseDoubleClick="chat_page_MouseDoubleClick"
+     Background="LightPink"                
+     Margin="112,0,200,100"
+     
+     />
+                <TextBox
+   x:Name="user_question"
+    Width="400"
+    Height="30" 
+    Margin="0,250,99,0"/>
+                <Button
+   Height="30"
+   Width="400"
+   Content="Ask question"
+   Margin="0,320,99,0"
+ 
+/>
+
+            </Grid>
+    <!--end of chats page-->
+
+   <!--reminder page-->
+     <Grid
+     Height="450px"
+     Width="700px"
+     x:Name="reminder_page"
+     Background="LightBlue"
+    Visibility="Hidden"
+            >
+          
+     <ListView
+     Height="300"
+     Width="400"
+     x:Name="reminders_page"
+     Background="Beige"
+     Margin="150,50,150,100"
+     
+     />
+                
+     <TextBox
+      x:Name="user_tasks"
+       Width="400"
+       Height="30" 
+       Margin="0,210,0,0"/>
+      <Button
+      Height="30"
+      Width="400"
+      Content="set reminder"
+      Margin="0,290,0,0"
+    
+   />
+     </Grid>
+       <!--end of reminder page-->
+
+      <!--quiz page-->
+     <Grid
+     Height="450px"
+     Width="700px"
+     x:Name="quiz_page"
+     Background="LightBlue"
+      Visibility="Hidden"
+            >
+     <ListView
+     Height="300"
+     Width="400"
+     x:Name="quizes_page"
+      Background="DarkCyan"
+     Margin="135,55,165,95"
+     
+     />
+
+            </Grid>
+                    <!--end of quiz page-->
+
+                    <!--activity page-->
+                    <Grid
+            Height="450px"
+            Width="700px"
+            x:Name="activity_page"
+            Background="LightBlue"
+            Visibility="Hidden"
+            >
+                       
+               <ListView
+     Height="200"
+     Width="400"
+     x:Name="activities_log"
+     Background="Black"                          
+      Margin="135,55,165,95"
+     
+     />
+
+                    </Grid>
+                    <!--end of quize page-->
+                </Grid>
+                <!--end of the main content grid-->
+
+
+
+        </Grid>
+</Window>
