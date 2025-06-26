@@ -33,12 +33,12 @@ namespace prog_final_part
 
         {
 
-        InitializeComponent();
-        populateQuizeData(); // Call this method
-        showQuiz();
+            InitializeComponent();
+            populateQuizeData(); // Call this method
+            showQuiz();
         }
         //method to show the quize on the button
-        private void showQuiz() 
+        private void showQuiz()
         {
             ////get the current index
             correctAnswerButton = null;
@@ -48,10 +48,10 @@ namespace prog_final_part
             var currentQuize = quizeData[questionIndex];
 
             //display the question to the usr 
-            QuestionDisplay.Text = currentQuize.Question; 
+            QuestionDisplay.Text = currentQuize.Question;
 
             //add the choices to the button 
-            var shuffled = currentQuize.Answers.OrderBy(_=> Guid.NewGuid()).ToList();
+            var shuffled = currentQuize.Answers.OrderBy(_ => Guid.NewGuid()).ToList();
 
             //then add the index
             numberOne.Content = shuffled[0];
@@ -69,11 +69,11 @@ namespace prog_final_part
         {
             //use for each to re-set
             foreach (var buttonChoice in new[] { numberOne, numberTwo, numberThree, numberfour })
-            { 
-                    buttonChoice.Background = Brushes.LightGray;
-                }
+            {
+                buttonChoice.Background = Brushes.LightGray;
             }
-        
+        }
+
         // Method to populate  the quize data 
         private void populateQuizeData()
         {
@@ -101,7 +101,7 @@ namespace prog_final_part
                 } ,// end of second questin add another one
 
             };
-           
+
         }
         //end of the method to populate data
         // when the task selected item from the list view 
@@ -110,13 +110,13 @@ namespace prog_final_part
             // get the selected task   
             string selected_task = chat_page.SelectedItem.ToString();
             // cheack if the tasks is not done 
-            if (! selected_task.Contains("stats done"))
+            if (!selected_task.Contains("stats done"))
             {
                 //get the index f the selected taxk
                 int getIndex = chat_page.Items.IndexOf(selected_task);
 
                 //eddit the selected item  
-                chat_page.Items[getIndex] = selected_task + " "+ "stats done";
+                chat_page.Items[getIndex] = selected_task + " " + "stats done";
             }
             else
             {
@@ -124,22 +124,22 @@ namespace prog_final_part
                 //get the index 
                 chat_page.Items.Remove(selected_task);
             }
-        }  
+        }
 
         private void chats(object sender, RoutedEventArgs e)
         {
-         //olllect all the user input
-         string collect_questoion = user_question.Text.ToString();
+            //olllect all the user input
+            string collect_questoion = user_question.Text.ToString();
 
             //validate if the user entred something 
             if (!collect_questoion.Equals(""))
             {
                 //hek if the user want to ad a task 
-                if(collect_questoion.Contains("add task"))
+                if (collect_questoion.Contains("add task"))
                 {
-                       //add the task to thr list view but get date and time
-                       DateTime date = DateTime.Now;
-                      DateTime time = DateTime.Now.ToLocalTime();
+                    //add the task to thr list view but get date and time
+                    DateTime date = DateTime.Now;
+                    DateTime time = DateTime.Now.ToLocalTime();
 
 
 
@@ -149,11 +149,11 @@ namespace prog_final_part
                     //the ad to the list
                     chat_page.Items.Add("user : " + collect_questoion + "\n" + formart_date + "Time" + time);
                     chat_page.ScrollIntoView(chat_page.Items[chat_page.Items.Count - 1]);
-                
+
                 }
 
 
-                
+
             }
             else
             {
@@ -172,7 +172,7 @@ namespace prog_final_part
 
         private void quiz(object sender, RoutedEventArgs e)
         {
-        
+
         }
         private void HandlingAnswers(object sender, RoutedEventArgs e)
         {
@@ -198,7 +198,7 @@ namespace prog_final_part
             }
 
 
-                
+
         }//end of hadling answer section 
 
         //event handler for the next question 
@@ -222,27 +222,40 @@ namespace prog_final_part
                 DisplayScore.Text = "score: " + questionCount;
                 //move to the next index question
             }
-                questionIndex++;
+            else
+            {
+                // incorrect
+                electedChoice.Background = Brushes.Red;
 
-                // Check if more questions are available
-                if (questionIndex < quizeData.Count)
+                // Show the correct answer in green
+                foreach (var button in new[] { numberOne, numberTwo, numberThree, numberfour })
                 {
-                    showQuiz();  // 👉 Load the next question
+                    if (button.Content.ToString() == correct)
+                    {
+                        button.Background = Brushes.Green;
+                        break;
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Quiz complete! Your final score: " + questionCount);
-                    // Optionally disable the quiz buttons here
-                    nextQuesstion.IsEnabled = false;
-                
+
+
             }
-            //show the next question 
+            questionIndex++;
 
+            if (questionIndex >= quizeData.Count)
+            {
+                MessageBox.Show("Quiz done! Restarting from the beginning.");
 
-        
+                questionIndex = 0;         // Reset to first question
+                questionCount = 0;         // Reset score
+                DisplayScore.Text = "Score: 0";
 
-        
-        }//end of handling the next question
+                showQuiz();                // Show first question again
+                return;
+            }
+            // 
+
+            showQuiz(); // Show next question
+        }
 
 
         private void activity_log(object sender, RoutedEventArgs e)
