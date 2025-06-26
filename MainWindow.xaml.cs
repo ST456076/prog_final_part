@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace prog_final_part
 {
     /// <summary>
@@ -16,12 +17,93 @@ namespace prog_final_part
     /// </summary>
     public partial class MainWindow : Window
     {
+        //global decleration for all insance and virables
+
+        //generic list 
+        private List<QuizeGameQuestions> quizeData;
+
+        //variables
+        private int questionIndex = 0;
+        private int questionCount = 0;
+
+        //button 
+        private Button electedChoice = null;
+        private Button correctAnswerButton = null;
         public MainWindow()
 
         {
 
         InitializeComponent();
+        populateQuizeData(); // Call this method
+        showQuiz();
         }
+        //method to show the quize on the button
+        private void showQuiz() 
+        {
+            ////get the current index
+            correctAnswerButton = null;
+            electedChoice = null;
+
+            //then get all the questio values 
+            var currentQuize = quizeData[questionIndex];
+
+            //display the question to the usr 
+            QuestionDisplay.Text = currentQuize.Question; 
+
+            //add the choices to the button 
+            var shuffled = currentQuize.Answers.OrderBy(_=> Guid.NewGuid()).ToList();
+
+            //then add the index
+            numberOne.Content = shuffled[0];
+            numberTwo.Content = shuffled[1];
+            numberThree.Content = shuffled[2];
+
+            //correct one
+
+            numberfour.Content = currentQuize.CorrectAnswer;
+            ClearStyle();
+
+        }
+        //meethod to re-set the button
+        private void ClearStyle()
+        {
+            //use for each to re-set
+            foreach (var buttonChoice in new[] { numberOne, numberTwo, numberThree, numberfour })
+            { 
+                    buttonChoice.Background = Brushes.LightGray;
+                }
+            }
+        
+        // Method to populate  the quize data 
+        private void populateQuizeData()
+        {
+            //store 
+            quizeData = new List<QuizeGameQuestions>()
+            {
+                new QuizeGameQuestions
+                {
+                    Question= "what is malware",
+                    CorrectAnswer= "software that harms ad exploits a computer system",
+                    Answers = new List<string>
+                    {
+
+                        "software that protect against viruses", "software that dectats intrusion","software that harms or exploits a computer system","software that optimizes system perfomance"
+                    }
+                } ,
+                new QuizeGameQuestions
+                {
+                    Question = "what shuld you do if you recive a suspios email?",
+                    CorrectAnswer = "report it to IT department ",
+                    Answers=new List<string>
+                    {
+                        "click on the link of atttachment", "reply to the email", "delete the email", "report it to IT depatment"
+                    }
+                } ,// end of second questin add another one
+
+            };
+           
+        }
+        //end of the method to populate data
         // when the task selected item from the list view 
         private void chat_page_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -92,6 +174,76 @@ namespace prog_final_part
         {
         
         }
+        private void HandlingAnswers(object sender, RoutedEventArgs e)
+        {
+            electedChoice = sender as Button;
+            string selected = electedChoice.Content.ToString();
+
+            //decler string correct 
+            string correct = quizeData[questionIndex].CorrectAnswer;
+            //then click if correct or not by if statement 
+            if (selected == correct)
+            {
+                //set a button for background color 
+                electedChoice.Background = Brushes.Green;
+                //assign to hold 
+                correctAnswerButton = electedChoice;
+            }
+            else
+            {
+                //incorrect
+                electedChoice.Background = Brushes.Red;
+                correctAnswerButton = electedChoice;
+
+            }
+
+
+                
+        }//end of hadling answer section 
+
+        //event handler for the next question 
+        private void HendlingTheFllowingQuestion(object sender, RoutedEventArgs e)
+        {
+            //check if the user select an answer
+            if (electedChoice == null)
+            {
+                //message 
+                MessageBox.Show("pick any answer for the 4 ");
+                return; // Exit early if no answer was selected
+            }
+            string chosen = electedChoice.Content.ToString();
+            string correct = quizeData[questionIndex].CorrectAnswer;
+            //cheack if correct 
+            if (chosen == correct)
+            {
+                //add point 
+                questionCount++;
+                //show score
+                DisplayScore.Text = "score: " + questionCount;
+                //move to the next index question
+            }
+                questionIndex++;
+
+                // Check if more questions are available
+                if (questionIndex < quizeData.Count)
+                {
+                    showQuiz();  // 👉 Load the next question
+                }
+                else
+                {
+                    MessageBox.Show("Quiz complete! Your final score: " + questionCount);
+                    // Optionally disable the quiz buttons here
+                    nextQuesstion.IsEnabled = false;
+                
+            }
+            //show the next question 
+
+
+        
+
+        
+        }//end of handling the next question
+
 
         private void activity_log(object sender, RoutedEventArgs e)
         {
